@@ -2,65 +2,24 @@ require 'geocoder/results/base'
 
 module Geocoder::Result
   class Seznam < Base
+    def address
+      @data['title']
+    end
 
     def coordinates
-      [@data["x"].to_f, @data["y"].to_f]
+      [@data['x'].to_f, @data['y'].to_f]
     end
 
-    def address
-      @data["label"]
-    end
+    def state; end
 
-    def state
-      @data["label"]
-    end
+    def state_code; end
 
-    def province
-      @data["label"]
-    end
+    def country; end
 
-    def city
-      @data["label"]
-    end
+    def country_code; end
 
-    def district
-      @data["label"]
-    end
-
-    def street
-      @data["label"]
-    end
-
-    def street_number
-      @data["label"]
-    end
-
-    def formatted_address
-      @data["label"]
-    end
-
-    def address_components
-      @data["label"]
-    end
-
-    def state_code
-      @data["label"]
-    end
-
-    def postal_code
-      @data["label"]
-    end
-
-    def country
-      @data["label"]
-    end
-
-    def country_code
-      @data["CZ"]
-    end
-
-    def self.response_attributes
-      []
+    def exact_location?
+      @data['source'] == 'addr' && @data['type'] == 'addr'
     end
   end
 end
