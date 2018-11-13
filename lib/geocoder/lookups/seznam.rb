@@ -17,6 +17,8 @@ module Geocoder::Lookup
     end
 
     def parse_raw_data(raw_data)
+      Geocoder.log :debug, "Received: #{raw_data}"
+      puts "Received: #{raw_data}"
       Hash.from_xml(raw_data)
     end
 
