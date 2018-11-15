@@ -37,8 +37,8 @@ module Geocoder::Lookup
 
     def query_url_params(query)
       params = { phrase: query.sanitized_text, count: 5 } unless @reverse_geocoded
-      params ||= { lon: query.coordinates[0],
-                   lat: query.coordinates[1] }
+      params ||= { lat: query.coordinates[0],
+                   lon: query.coordinates[1] }
       params.merge(super)
     end
 
