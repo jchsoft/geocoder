@@ -4,9 +4,9 @@ module Geocoder::Result
   class Seznam < Base
     def address(format = :full)
       [
-        user_data['suggestFirstRow'],
-        user_data['suggestSecondRow'],
-        user_data['suggestThirdRow']
+          user_data['suggestFirstRow'],
+          user_data['suggestSecondRow'],
+          user_data['suggestThirdRow']
       ].reject(&:blank?).join(', ')
     end
 

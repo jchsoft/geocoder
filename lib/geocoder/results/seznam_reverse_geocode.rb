@@ -11,7 +11,7 @@ module Geocoder::Result
     end
 
     def state
-      find_by_source('regi').dig(:name).to_s.delete_prefix('kraj').strip
+      find_by_source('regi').dig('name').to_s.delete_prefix('kraj').strip
     end
 
     def state_code
@@ -19,7 +19,7 @@ module Geocoder::Result
     end
 
     def country
-      find_by_source('coun').dig(:name)
+      find_by_source('coun').dig('name')
     end
 
     def country_code
@@ -27,7 +27,7 @@ module Geocoder::Result
     end
 
     def district
-      find_by_source('dist').dig(:name).to_s.delete_prefix('okres').strip
+      find_by_source('dist').dig('name').to_s.delete_prefix('okres').strip
     end
 
     def category
@@ -37,11 +37,11 @@ module Geocoder::Result
     def house_number; end
 
     def city
-      find_by_source('muni').dig(:name)
+      find_by_source('muni').dig('name')
     end
 
     def quarter
-      find_by_source('quar').dig(:name)
+      find_by_source('quar').dig('name')
     end
 
     def region
@@ -53,8 +53,8 @@ module Geocoder::Result
     end
 
     def street
-      (find_by_source('addr').dig(:name) ||
-        find_by_source('stre').dig(:name)).to_s.delete_prefix('ulice').strip
+      (find_by_source('addr').dig('name') ||
+          find_by_source('stre').dig('name')).to_s.delete_prefix('ulice').strip
     end
 
     def street_number
@@ -62,7 +62,7 @@ module Geocoder::Result
     end
 
     def ward
-      find_by_source('ward').dig(:name).to_s.delete_prefix('část obce').strip
+      find_by_source('ward').dig('name').to_s.delete_prefix('část obce').strip
     end
 
     def zip
@@ -72,7 +72,7 @@ module Geocoder::Result
     private
 
     def find_by_source(code)
-      @data['items'].find { |item| item['source'] == code } || {}
+      @data['item'].find { |item| item['source'] == code } || {}
     end
   end
 end

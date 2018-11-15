@@ -12,21 +12,22 @@ module Geocoder::Lookup
     private # ---------------------------------------------------------------
 
     def base_query_url(query)
-      return "#{protocol}://api.mapy.cz/rgeocode?" if query.reverse_geocode?
+      return "#{protocol}://api.mapy.cz/rgeocode?" if @reverse_geocoded
 
       "#{protocol}://api.mapy.cz/suggest/?"
     end
 
     def parse_raw_data(raw_data)
-      return Hash.from_xml(raw_data) if query.reverse_geocode?
+      return Hash.from_xml(raw_data) if @reverse_geocoded
 
       super
     end
 
     def results(query, _reverse = false)
+      @reverse_geocoded = query.reverse_geocode?
       doc = fetch_data(query)
       return [] unless doc
-      return Array.wrap(doc.dig('result')) unless query.reverse_geocode?
+      return Array.wrap(doc.dig('result')) unless @reverse_geocoded
 
       Array.wrap(doc.dig('rgeocode')).map do |res|
         res['original_coordinates'] = query.coordinates
@@ -35,14 +36,14 @@ module Geocoder::Lookup
     end
 
     def query_url_params(query)
-      params = { phrase: query.sanitized_text, count: 5 } unless query.reverse_geocode?
+      params = { phrase: query.sanitized_text, count: 5 } unless @reverse_geocoded
       params ||= { lon: query.coordinates[0],
                    lat: query.coordinates[1] }
       params.merge(super)
     end
 
     def result_class
-      return Geocoder::Result::SeznamReverseGeocode if query.reverse_geocode?
+      return Geocoder::Result::SeznamReverseGeocode if @reverse_geocoded
 
       super
     end
