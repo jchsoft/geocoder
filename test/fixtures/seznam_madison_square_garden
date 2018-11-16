@@ -1,0 +1,60 @@
+{
+   "deletedFromBack":0,
+   "hasGeo":0,
+   "hasService":0,
+   "id":"5803ce36-9489-42ec-9b30-a2497e7984ae",
+   "result":[
+      {
+         "category":"poi_osm",
+         "highlight":[
+
+         ],
+         "sentence":"",
+         "userData":{
+            "bbox":[
+               40.749851226806641,
+               -73.99444580078125,
+               40.75115966796875,
+               -73.992591857910156
+            ],
+            "country":"",
+            "district":"",
+            "evidenceNumber":"",
+            "highlight":[
+               0,
+               21
+            ],
+            "highlightSecond":[
+
+            ],
+            "houseNumber":"",
+            "iconType":"default",
+            "id":138355652,
+            "img":"",
+            "importance":0.20000000298023224,
+            "latitude":40.750518548570199,
+            "longitude":-73.993494158744895,
+            "muniId":"",
+            "municipality":"",
+            "nuts":"",
+            "poiType":"",
+            "poiTypeId":5418,
+            "popularity":0.30199999999999999,
+            "premiseIds":[
+
+            ],
+            "quarter":"",
+            "region":"",
+            "source":"osm",
+            "street":"",
+            "streetNumber":"",
+            "suggestFirstRow":"Madison Square Garden",
+            "suggestSecondRow":"obec Manhattan Community Board 5, Spojené státy americké",
+            "suggestThirdRow":"",
+            "ward":"",
+            "wikiId":"Q186125",
+            "zipCode":""
+         }
+      }
+   ]
+}

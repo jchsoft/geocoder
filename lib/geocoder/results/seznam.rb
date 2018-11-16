@@ -70,7 +70,7 @@ module Geocoder::Result
       user_data['ward']
     end
 
-    def zip
+    def postal_code
       user_data['zipCode']
     end
 

@@ -65,7 +65,7 @@ module Geocoder::Result
       find_by_source('ward').dig('name').to_s.delete_prefix('část obce').strip
     end
 
-    def zip
+    def postal_code
       ''
     end
 
