@@ -8,6 +8,7 @@ group :development, :test do
   gem 'rubyzip'
   gem 'rails'
   gem 'test-unit' # needed for Ruby >=2.2.0
+  gem 'activesupport'
 
   platforms :jruby do
     gem 'jruby-openssl'
