@@ -18,12 +18,14 @@ module Geocoder::Lookup
     end
 
     def parse_raw_data(raw_data)
+      Geocoder.log(:debug, "searching: #{@query.text}, response: #{raw_data.inspect}, reverse: #{@reverse_geocoded}")
       return Hash.from_xml(raw_data) if @reverse_geocoded
 
       super
     end
 
     def results(query, _reverse = false)
+      @query = query
       @reverse_geocoded = query.reverse_geocode?
       doc = fetch_data(query)
       return [] unless doc
