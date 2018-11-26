@@ -13,15 +13,12 @@ require "geocoder/models/mongoid" if defined?(::Mongoid)
 require "geocoder/models/mongo_mapper" if defined?(::MongoMapper)
 
 module Geocoder
-  @semaphore ||= Mutex.new
   ##
   # Search for information about an address or a set of coordinates.
   #
   def self.search(query, options = {})
-    @semaphore.synchronize do
-      query = Geocoder::Query.new(query, options) unless query.is_a?(Geocoder::Query)
-      query.blank? ? [] : query.execute
-    end
+    query = Geocoder::Query.new(query, options) unless query.is_a?(Geocoder::Query)
+    query.blank? ? [] : query.execute
   end
 
   ##

@@ -12,24 +12,24 @@ module Geocoder::Lookup
     private # ---------------------------------------------------------------
 
     def base_query_url(query)
-      return "#{protocol}://api.mapy.cz/rgeocode?" if @reverse_geocoded
+      return "#{protocol}://api.mapy.cz/rgeocode?" if Thread.current["reverse_geocoded"]
 
       "#{protocol}://api.mapy.cz/suggest/?"
     end
 
     def parse_raw_data(raw_data)
-      Geocoder.log(:debug, "searching: #{@query.text}, response: #{raw_data.inspect}, reverse: #{@reverse_geocoded}")
-      return Hash.from_xml(raw_data) if @reverse_geocoded
+      Geocoder.log(:debug, "searching: #{Thread.current["query"].text}, response: #{raw_data.inspect}, reverse: #{Thread.current["reverse_geocoded"]}")
+      return Hash.from_xml(raw_data) if Thread.current["reverse_geocoded"]
 
       super
     end
 
     def results(query, _reverse = false)
-      @query = query
-      @reverse_geocoded = query.reverse_geocode?
+      Thread.current["query"] = query
+      Thread.current["reverse_geocoded"] = query.reverse_geocode?
       doc = fetch_data(query)
       return [] unless doc
-      return Array.wrap(doc.dig('result')) unless @reverse_geocoded
+      return Array.wrap(doc.dig('result')) unless Thread.current["reverse_geocoded"]
 
       Array.wrap(doc.dig('rgeocode')).map do |res|
         res['original_coordinates'] = query.coordinates
@@ -38,14 +38,14 @@ module Geocoder::Lookup
     end
 
     def query_url_params(query)
-      params = { phrase: query.sanitized_text, count: 5 } unless @reverse_geocoded
+      params = { phrase: query.sanitized_text, count: 5 } unless Thread.current["reverse_geocoded"]
       params ||= { lat: query.coordinates[0],
                    lon: query.coordinates[1] }
       params.merge(super)
     end
 
     def result_class
-      return Geocoder::Result::SeznamReverseGeocode if @reverse_geocoded
+      return Geocoder::Result::SeznamReverseGeocode if Thread.current["reverse_geocoded"]
 
       super
     end
