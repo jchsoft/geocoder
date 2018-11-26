@@ -244,6 +244,7 @@ module Geocoder
           response = make_api_request(query)
           check_response_for_errors!(response)
           body = response.body
+          Geocoder.log(:debug, "Geocoder: HTTP response from #{@uri_for_log}: #{body.inspect}")
 
           # apply the charset from the Content-Type header, if possible
           ct = response['content-type']
@@ -290,6 +291,7 @@ module Geocoder
       #
       def make_api_request(query)
         uri = URI.parse(query_url(query))
+        @uri_for_log = uri
         Geocoder.log(:debug, "Geocoder: HTTP request being made for #{uri.to_s}")
         http_client.start(uri.host, uri.port, use_ssl: use_ssl?, open_timeout: configuration.timeout, read_timeout: configuration.timeout) do |client|
           configure_ssl!(client) if use_ssl?
