@@ -49,12 +49,12 @@ module Geocoder::Result
     end
 
     def source_type
-      @data['items'].first.try(:[], 'source')
+      location_data.first.try(:[], 'source')
     end
 
     def street
       (find_by_source('addr').dig('name') ||
-          find_by_source('stre').dig('name')).to_s.delete_prefix('ulice').strip
+        find_by_source('stre').dig('name')).to_s.delete_prefix('ulice').strip
     end
 
     def street_number
@@ -72,7 +72,11 @@ module Geocoder::Result
     private
 
     def find_by_source(code)
-      @data['item'].find { |item| item['source'] == code } || {}
+      location_data.find { |item| item['source'] == code } || {}
+    end
+
+    def location_data
+      Array.wrap(@data['item'])
     end
   end
 end
