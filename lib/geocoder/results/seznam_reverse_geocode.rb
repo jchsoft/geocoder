@@ -75,7 +75,7 @@ module Geocoder::Result
     end
 
     def find_by_source(code)
-      location_data.find { |item| item['source'] == code } || {}
+      location_data.find { |item| item['type'] == code } || {}
     end
 
     def location_data
