@@ -19,9 +19,15 @@ module Geocoder::Lookup
 
     def parse_raw_data(raw_data)
       Geocoder.log(:debug, "searching: #{Thread.current["query"].text}, response: #{raw_data.inspect}, reverse: #{Thread.current["reverse_geocoded"]}")
-      return Hash.from_xml(raw_data) if Thread.current["reverse_geocoded"]
+      return parse_xml_data(raw_data) if Thread.current["reverse_geocoded"]
 
       super
+    end
+
+    def parse_xml_data(raw_data)
+      Hash.from_xml(raw_data)
+    rescue REXML::ParseException
+      nil
     end
 
     def results(query, _reverse = false)
