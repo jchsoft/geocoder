@@ -5,6 +5,7 @@ require 'active_support/core_ext'
 
 module Geocoder::Lookup
   class Seznam < Base
+    MAX_RETRIES = 5
     def name
       'Seznam'
     end
@@ -19,21 +20,15 @@ module Geocoder::Lookup
 
     def parse_raw_data(raw_data)
       Geocoder.log(:debug, "searching: #{Thread.current["query"].text}, response: #{raw_data.inspect}, reverse: #{Thread.current["reverse_geocoded"]}")
-      return parse_xml_data(raw_data) if Thread.current["reverse_geocoded"]
+      return Hash.from_xml(raw_data) if Thread.current["reverse_geocoded"]
 
       super
-    end
-
-    def parse_xml_data(raw_data)
-      Hash.from_xml(raw_data)
-    rescue REXML::ParseException
-      nil
     end
 
     def results(query, _reverse = false)
       Thread.current["query"] = query
       Thread.current["reverse_geocoded"] = query.reverse_geocode?
-      doc = fetch_data(query)
+      doc = safely_fetch_data(query)
       return [] unless doc
       return Array.wrap(doc.dig('result')) unless Thread.current["reverse_geocoded"]
 
@@ -54,6 +49,15 @@ module Geocoder::Lookup
       return Geocoder::Result::SeznamReverseGeocode if Thread.current["reverse_geocoded"]
 
       super
+    end
+
+    def safely_fetch_data(query)
+      MAX_RETRIES.times do |round|
+        return fetch_data(query)
+      rescue REXML::ParseException
+        sleep round
+      end
+      nil
     end
   end
 end

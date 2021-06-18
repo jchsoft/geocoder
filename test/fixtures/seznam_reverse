@@ -1,0 +1,9 @@
+<rgeocode label="Hlaváčova 207, Pardubice, 530 02, Pardubice" status="200" message="Ok">
+<item id="8865252" name="Hlaváčova 207" source="addr" type="addr" x="15.762239046749674" y="50.03228346584378"/>
+<item id="84" name="Pardubice I" source="quar" type="quar" x="15.773314548978075" y="50.03470664089117"/>
+<item id="14980" name="Zelené Předměstí" source="ward" type="ward" x="15.77398585984353" y="50.03477388898234"/>
+<item id="1258" name="Pardubice" source="muni" type="muni" x="15.7774238889" y="50.0375791667"/>
+<item id="32" name="Okres Pardubice" source="dist" type="dist" x="15.754463852187907" y="50.057263175588126"/>
+<item id="7" name="Pardubický kraj" source="regi" type="regi" x="16.191219" y="49.901279"/>
+<item id="112" name="Česko" source="coun" type="coun" x="15.338411" y="49.742858"/>
+</rgeocode>
